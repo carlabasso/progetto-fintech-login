@@ -23,5 +23,16 @@ def login():
         return jsonify({'message': f'Benvenuto, {username}'})
     return jsonify({'message': 'Credenziali errate'}), 401
 
+@app.route('/saldo', methods=['POST'])
+def saldo():
+    data = request.get_json()
+    username = data['username']
+    password = data['password']
+
+    user = users.get(username)
+    if user and user['password'] == password:
+        return jsonify({'saldo': user['saldo']})
+    return jsonify({'message': 'Accesso negato'}), 401
+
 if __name__ == '__main__':
     app.run(debug=True)
